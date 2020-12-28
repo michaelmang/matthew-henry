@@ -1,38 +1,89 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+* {
+  letter-spacing: 0.5px;
+  font-family: 'Rubik', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+p {
+  line-height: 28px;
+  margin-bottom: 2rem;
+  animation: fade-in 1s ease-out;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+h4 {
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+p.read-this-passage {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.card {
+  background: linear-gradient(
+    180deg, rgba(0, 0, 0, 0),rgba(0, 0, 0, 1) 100%
+  ), 
+  var(--card-background);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  transition: 0.4s 0.4s transform ease-out;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+  .card:hover {
+    transform: scale(1.15);
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.hero {
+  background: linear-gradient(
+    90deg, rgba(24, 24, 24, 1),rgba(24, 24, 24, 0) 100%
+  ), 
+  var(--hero-background);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 60vh;
+  animation: fade-in 0.5s ease-out;
 }
 
-.App-link {
-  color: #61dafb;
+.header {
+  background: linear-gradient(
+    0deg, rgba(24, 24, 24, 1),rgba(24, 24, 24, 0.6) 100%
+  ), 
+  var(--header-background);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 30vh;
+  animation: fade-in 0.5s ease-out;
 }
 
-@keyframes App-logo-spin {
+.progress-meter {
+  animation: roundtime calc(var(--duration) * 250ms) linear forwards;
+}
+
+@keyframes fade-in {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
   }
+}
+
+@keyframes roundtime {
+  from {
+    width: 5%;
+  }
+
   to {
-    transform: rotate(360deg);
+    width: 100%;
   }
 }

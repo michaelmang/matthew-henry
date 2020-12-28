@@ -3,19 +3,38 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.3.6",
+    "@auth0/auth0-react": "^1.2.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "graphql": "^15.4.0",
+    "lodash.kebabcase": "^4.1.1",
+    "lodash.meanby": "^4.10.0",
+    "prettier": "^2.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
-    "web-vitals": "^0.2.4"
+    "react-spring": "^8.0.27",
+    "react-three-fiber": "^5.3.10",
+    "three": "^0.124.0",
+    "timeago.js": "^4.0.2",
+    "use-debounce": "^5.2.0",
+    "uuid": "^8.3.2",
+    "web-vitals": "^0.2.4",
+    "windups": "^1.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "pretty": "prettier **/*.js --write",
+    "prestart": "npx tailwindcss-cli@latest build ./src/tailwind.css -o ./src/tailwind.dist.css"
   },
   "eslintConfig": {
     "extends": [
