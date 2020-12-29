@@ -1,5 +1,4 @@
 import { useQuery } from '@apollo/client';
-import capitalize from 'lodash.capitalize';
 
 import Header from "./Header.js";
 import Layout from "./Layout.js";
@@ -9,10 +8,11 @@ import { getUuid } from '../utils.js';
 
 export default function Commentary({ match }) {
   const { book, chapter } = match.params;
+  const parsedBook = book.replace(/-/gm, " ").replace(/\b[a-z](?=[a-z])/gm, (letter) => letter.toUpperCase());
   const { loading, data, error, refetch } = useQuery(COMMENTARY, {
     variables: {
       book_chapter: parseInt(chapter),
-      book_id: getUuid(capitalize(book)),
+      book_id: getUuid(parsedBook),
     },
   });
 
@@ -27,7 +27,7 @@ export default function Commentary({ match }) {
         {...data}
         loading={loading}
       >
-        {capitalize(book)} {chapter}
+        {parsedBook} {chapter}
       </Header>
       <Reader
         bookImage={commentary?.book_image}
