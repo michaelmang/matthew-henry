@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const BOOKS = gql`
   query {
-    books {
+    books(order_by: {created_at: asc}) {
       tag {
         id
         type
@@ -10,7 +10,7 @@ export const BOOKS = gql`
       id
       image
       name
-      commentaries {
+      commentaries(order_by: {book_chapter: asc}) {
         author
         book_chapter
         content
