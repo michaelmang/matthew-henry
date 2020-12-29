@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import Button from './Button.js';
 import Navbar from './Navbar.js';
 
-const defaultImage = "https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80";
+const defaultImage = "https://images.unsplash.com/photo-1481142889578-dda440dacfe1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80";
 
 export default function Hero({ author, book, book_chapter, bookImage, children, description, image, loading, tag }) {
   return (
