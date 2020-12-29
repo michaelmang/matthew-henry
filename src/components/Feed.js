@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faChevronCircleRight, faChevronCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 import Card from "./Card.js";
@@ -9,30 +9,29 @@ import { useWindowSize } from '../hooks.js';
 const defaultOffset = 0;
 const defaultLimit = 4;
 const md = 768; // size of medium breakpoint according to tailwindcss: https://tailwindcss.com/docs/responsive-design
+let offset = defaultOffset;
 
-export default function Feed({ commentaries: currentCommentaries, data, getCommentaries }) {
+export default function Feed({ commentaries: currentCommentaries, data, getCommentaries, isLoading }) {
   const size = useWindowSize();
-  
-  const [offset, setOffset] = useState(defaultOffset);
+
   const [expandedSection, setExpandedSection] = useState(null);
 
-  const expandSection = (id) => ({ isReversing = false } = {}) => {
-    let newOffset;
-
+  const expandSection = (id, count) => ({ isReversing = false } = {}) => {
     if (id !== expandedSection) {
       setExpandedSection(id);
-      newOffset = defaultOffset + defaultLimit;
+      offset = defaultOffset + defaultLimit;
     } else if (isReversing) {
-      newOffset = offset - defaultLimit;
+      offset = offset - defaultLimit;
+    } else if (offset + defaultLimit > count) {
+      offset = defaultOffset;
     } else {
-      newOffset = offset + defaultLimit;
+      offset = offset + defaultLimit;
     }
 
-    setOffset(newOffset);
     getCommentaries({
       variables: {
         book_id: id,
-        offset: newOffset,
+        offset,
       },
     });
   };
@@ -41,7 +40,7 @@ export default function Feed({ commentaries: currentCommentaries, data, getComme
     ? [offset]
     : [defaultOffset];
 
-  return data.books.map(({ id, image, commentaries, name }) => {
+  return data.books.map(({ count, id, image, commentaries, name }) => {
     const [currentOffset] = getLimitRange(id);
 
     let presentation;
@@ -54,29 +53,38 @@ export default function Feed({ commentaries: currentCommentaries, data, getComme
 
     return (
       <Section key={id} title={name}>
+        {size.width >= md && currentOffset > defaultOffset && (
+          <FontAwesomeIcon
+            className={`self-center mr-8 ${isLoading ? 'pointer-events-none' : 'pointer-events-auto'}`}
+            color="white"
+            icon={faChevronCircleLeft}
+            onClick={() => expandSection(id, count)({ isReversing: true })}
+            size="3x"
+          />
+        )}
         {presentation.map(({ book_chapter, ...rest }) => (
           <Card key={rest.id} {...rest} book_chapter={book_chapter} bookImage={image} book={name}>
             {name} {book_chapter}
           </Card>
         ))}
-        <div className="flex flex-col h-full justify-center items-center" style={{ height: 450 }}>
+        {size.width < md && currentOffset > defaultOffset && (
           <FontAwesomeIcon
-            className={`${size.width < md ? 'mr-2 mb-4' : 'ml-8 mb-4'} cursor-pointer`}
+            className={`mb-4 mr-2 ${isLoading ? 'pointer-events-none' : 'pointer-events-auto'}`}
             color="white"
-            icon={faPlus}
-            onClick={expandSection(id)}
+            icon={faChevronCircleLeft}
+            onClick={() => expandSection(id, count)({ isReversing: true })}
             size="3x"
           />
-          {currentOffset > defaultOffset && (
-            <FontAwesomeIcon
-              className={`${size.width < md ? 'ml-2 mb-8' : 'ml-8 mb-8'} cursor-pointer`}
-              color="white"
-              icon={faMinus}
-              onClick={() => expandSection(id)({ isReversing: true })}
-              size="3x"
-            />
-          )}
-        </div>
+        )}
+        {count > defaultLimit && (
+          <FontAwesomeIcon
+            className={`${size.width < md ? 'ml-2 mb-4' : 'ml-8'} self-center cursor-pointer ${isLoading ? 'pointer-events-none' : 'pointer-events-auto'}`}
+            color="white"
+            icon={faChevronCircleRight}
+            onClick={expandSection(id, count)}
+            size="3x"
+          />
+        )}
       </Section>
     );
   });

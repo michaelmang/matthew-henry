@@ -10,6 +10,7 @@ export const BOOKS = gql`
       id
       image
       name
+      count
       commentaries(order_by: {book_chapter: asc}, limit: 4, offset: 0) {
         author
         book_chapter
@@ -31,7 +32,7 @@ export const BOOKS = gql`
 `;
 
 export const COMMENTARIES = gql`
-  query ($book_id: uuid!, $offset: Int = 0) {
+  query ($book_id: uuid!, $offset: Int!) {
     commentaries(limit: 4, offset: $offset, where: {book_id: {_eq: $book_id}}, order_by: {book_chapter: asc}) {
       id
       author

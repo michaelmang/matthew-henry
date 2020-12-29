@@ -17,7 +17,11 @@ let offset = 4;
 
 function App() {
   const { loading, data, error, fetchMore } = useQuery(BOOKS);
-  const [getCommentaries, commentaries] = useLazyQuery(COMMENTARIES);
+  const [getCommentaries, commentaries] = useLazyQuery(COMMENTARIES, {
+    variables: {
+      offset: 0,
+    },
+  });
 
   const featuredBook = data?.books?.find(
     (book) => book?.tag?.type === "featured"
@@ -57,6 +61,7 @@ function App() {
                   commentaries={commentaries.data?.commentaries}
                   data={data}
                   getCommentaries={getCommentaries}
+                  isLoading={commentaries.loading}
                 />
               )}
             </Layout>
