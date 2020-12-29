@@ -1,27 +1,38 @@
-import { useQuery } from '@apollo/client';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 
-import './tailwind.dist.css';
-import './App.css';
+import "./tailwind.dist.css";
+import "./App.css";
 
-import { BOOKS } from './gql.js';
-import { getCommentaryByRouteName } from './selectors.js';
-import Feed from './components/Feed.js';
-import Header from './components/Header.js';
-import Hero from './components/Hero.js';
-import Layout from './components/Layout.js';
-import Reader from './components/Reader.js';
-import ScrollToTop from './components/ScrollToTop.js';
+import { BOOKS, COMMENTARIES } from "./gql.js";
+import Feed from "./components/Feed.js";
+import Hero from "./components/Hero.js";
+import Layout from "./components/Layout.js";
+import ScrollToTop from "./components/ScrollToTop.js";
+import Commentary from "./components/Commentary";
+
+const defaultLimit = 4;
+let offset = 4;
 
 function App() {
-  const { loading, data, error, refetch } = useQuery(BOOKS);
+  const { loading, data, error, fetchMore } = useQuery(BOOKS);
+  const [getCommentaries, commentaries] = useLazyQuery(COMMENTARIES);
 
-  if (loading) {
-    return "Loading...";
-  }
+  const featuredBook = data?.books?.find(
+    (book) => book?.tag?.type === "featured"
+  );
+  const hero = featuredBook?.commentaries[0];
 
-  const featuredBook = data.books.find(({ tag }) => tag.type === 'featured');
-  const hero = featuredBook.commentaries[0];
+  useBottomScrollListener(() => {
+    offset = offset + defaultLimit;
+
+    fetchMore({
+      variables: {
+        offset,
+      },
+    });
+  });
 
   return (
     <Router>
@@ -29,27 +40,33 @@ function App() {
       <div>
         <Switch>
           <Route exact path="/">
-            <Layout error={error} loading={loading}>
-              <Hero {...hero} loading={loading} book={featuredBook.name} bookImage={featuredBook.image}>
-                {featuredBook.name} {hero.book_chapter}
+            <Layout
+              error={error || commentaries.error}
+              loading={loading}
+            >
+              <Hero
+                {...hero}
+                loading={loading}
+                book={featuredBook?.name}
+                bookImage={featuredBook?.image}
+              >
+                {featuredBook?.name} {hero?.book_chapter}
               </Hero>
-              {!loading && <Feed data={data} />}
+              {!loading && (
+                <Feed
+                  commentaries={commentaries.data?.commentaries}
+                  data={data}
+                  getCommentaries={getCommentaries}
+                />
+              )}
             </Layout>
           </Route>
-
           <Route
             exact
             path="/commentaries/:book/:chapter"
             render={(routerProps) => {
-              const { book, chapter } = routerProps.match.params;
-              const commentary = getCommentaryByRouteName(data, book, chapter);
               return (
-                <Layout {...routerProps} loading={loading}>
-                  <Header {...commentary} loading={loading}>
-                    {book} {chapter}
-                  </Header>
-                  <Reader bookImage={commentary.book_image} content={commentary.content} loading={loading} refetch={refetch} reviews={commentary.reviews} {...routerProps} />
-                </Layout>
+                <Commentary {...routerProps} />
               );
             }}
           />

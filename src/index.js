@@ -9,7 +9,24 @@ import reportWebVitals from './reportWebVitals.js';
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_APOLLO_CLIENT_URI,
-  cache: new InMemoryCache({}),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          books: {
+            // Don't cache separate results based on
+            // any of this field's arguments.
+            keyArgs: false,
+            // Concatenate the incoming list items with
+            // the existing list items.
+            merge(existing = [], incoming) {
+              return [...existing, ...incoming];
+            },
+          }
+        }
+      }
+    }
+  }),
 });
 
 ReactDOM.render(

@@ -23,8 +23,13 @@ const DEBOUNCE = 100;
 
 const starRatings = [1, 2, 3, 4, 5];
 
-const getPercentOfRating = (reviews, starRating) =>
-  (reviews.filter(({ rating }) => rating === starRating).length / reviews.length) * 100;
+const getPercentOfRating = (reviews, starRating) => {
+  if (!reviews) {
+    return;
+  }
+
+  return (reviews.filter(({ rating }) => rating === starRating).length / reviews.length) * 100;
+}
 
 export default function Reader({ content, loading, match, refetch, reviews }) {
   const { isAuthenticated, user } = useAuth0();
@@ -120,6 +125,10 @@ export default function Reader({ content, loading, match, refetch, reviews }) {
       return;
     }
   }, [isAddingReview, data?.insert_reviews_one?.id, refetch, reviews, username]);
+
+  if (loading) {
+    return 'Loading...';
+  }
 
   const hasAddedReview =
     isAuthenticated &&

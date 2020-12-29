@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const BOOKS = gql`
-  query {
-    books(order_by: {created_at: asc}) {
+  query ($limit: Int = 4, $offset: Int = 0) {
+    books(order_by: {index: asc}, limit: $limit, offset: $offset) {
       tag {
         id
         type
@@ -10,10 +10,10 @@ export const BOOKS = gql`
       id
       image
       name
-      commentaries(order_by: {book_chapter: asc}) {
+      commentaries(order_by: {book_chapter: asc}, limit: 4, offset: 0) {
         author
         book_chapter
-        content
+        book_id
         description
         id
         image
@@ -22,13 +22,56 @@ export const BOOKS = gql`
           type
         }
         reviews {
-          created_at
           id
           rating
-          review
-          review_title
-          reviewer
         }
+      }
+    }
+  }
+`;
+
+export const COMMENTARIES = gql`
+  query ($book_id: uuid!, $offset: Int = 0) {
+    commentaries(limit: 4, offset: $offset, where: {book_id: {_eq: $book_id}}, order_by: {book_chapter: asc}) {
+      id
+      author
+      book_chapter
+      book_id
+      description
+      image
+      tag {
+        id
+        type
+      }
+      reviews {
+        id
+        rating
+      }
+    }
+  }
+`;
+
+export const COMMENTARY = gql`
+  query ($book_chapter: Int!, $book_id: uuid!) {
+    commentaries(where: {book_chapter: {_eq: $book_chapter}, book_id: {_eq: $book_id}}) {
+      id
+      author
+      book_chapter
+      book_id
+      content
+      description
+      image
+      tag {
+        id
+        type
+      }
+      reviews {
+        created_at
+        id
+        rating
+        review
+        review_title
+        reviewer
       }
     }
   }

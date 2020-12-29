@@ -1,3 +1,4 @@
+import tolower from 'lodash.tolower';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { animated, useSpring } from 'react-spring';
@@ -22,7 +23,7 @@ export default function Card({ author, book, book_chapter, bookImage, children, 
   const history = useHistory();
 
   const handleClick = () => {
-    history.push(`/commentaries/${book}/${book_chapter}`);
+    history.push(`/commentaries/${tolower(book)}/${book_chapter}`);
   };
 
   return (
