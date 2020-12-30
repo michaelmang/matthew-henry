@@ -6,7 +6,7 @@ import { Pace, WindupChildren } from 'windups';
 import Navbar from "./Navbar.js";
 
 const defaultImage =
-  "http://digitalpuritan.net/wp-content/uploads/2014/06/Matthew-Henry-745x1024.jpg";
+  "https://res.cloudinary.com/dpzpn0xkz/image/upload/w_1000,ar_16:9,c_fill,g_auto,e_sharpen/v1609360871/matthew_henry/ovokwmsfplzo5zrmcmfz.jpg";
 
 export default function Hero({ loading }) {
   return (
