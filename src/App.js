@@ -26,11 +26,13 @@ function App() {
   useBottomScrollListener(() => {
     offset = offset + defaultLimit;
 
-    fetchMore({
-      variables: {
-        offset,
-      },
-    });
+    if (fetchMore) {
+      fetchMore({
+        variables: {
+          offset,
+        },
+      });
+    }
   });
 
   return (
