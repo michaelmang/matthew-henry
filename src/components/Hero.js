@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { Fragment } from "react";
+import { Pace, WindupChildren } from 'windups';
 
 import Navbar from "./Navbar.js";
 
@@ -25,19 +26,22 @@ export default function Hero({ loading }) {
                 1706 - 1714
               </div>
               <div className="flex flex-col border-white border-l-2 border-solid pr-8 text-white text-xs md:text-base w-3/4 md:w-5/12">
-                <div className="ml-4 text-left">
-                  It is an excellency, in this commentary, that the truths of
-                  Scripture are adapted, with great spiritual skill, to the
-                  various afflictions, conflicts, and temptations which are
-                  incident to the Christian life. The erring will here find
-                  reproof and direction, the sluggish excitement, the timid
-                  encouragement, the mourner comfort, and the growing Christian,
-                  confirmation, and increase of knowledge and assurance.
-
-                </div>
-                <div className="ml-4 mt-4">
-                  - Archibald Alexander (1828)
-                </div>
+                <WindupChildren>
+                  <Pace getPace={(char) => (char === ' ' ? 35 : 20)}>
+                    <div className="ml-4 text-left">
+                      It is an excellency, in this commentary, that the truths of
+                      Scripture are adapted, with great spiritual skill, to the
+                      various afflictions, conflicts, and temptations which are
+                      incident to the Christian life. The erring will here find
+                      reproof and direction, the sluggish excitement, the timid
+                      encouragement, the mourner comfort, and the growing Christian,
+                      confirmation, and increase of knowledge and assurance.
+                    </div>
+                    <div className="ml-4 mt-4">
+                      - Archibald Alexander (1828)
+                    </div>
+                  </Pace>
+                </WindupChildren>
               </div>
               <div className="flex my-5">
                 <FontAwesomeIcon

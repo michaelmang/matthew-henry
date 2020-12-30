@@ -2,6 +2,7 @@ import kebabcase from 'lodash.kebabcase';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { animated, useSpring } from 'react-spring';
+import { useVibrate } from 'react-use';
 
 import RatingStars from './RatingStars.js';
 import { fadeIn } from '../animations.js';
@@ -10,6 +11,7 @@ const defaultImage = "https://images.unsplash.com/photo-1481142889578-dda440dacf
 
 export default function Card({ author, book, book_chapter, bookImage, children, description, image, tag, reviews }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [hasClicked, setClicked] = useState(false);
 
   const updateHovered = (val) => async () => {
     await sleep(400);
@@ -26,10 +28,15 @@ export default function Card({ author, book, book_chapter, bookImage, children, 
     history.push(`/commentaries/${kebabcase(book)}/${book_chapter}`);
   };
 
+  useVibrate(hasClicked, [300], false);
+
   return (
     <animated.div
       className="card cursor-pointer w-11/12 md:w-1/5 mb-8 md:mb-1 mr-3 md:mr-1 rounded-lg bg-overlay flex flex-col justify-end items-start text-white p-4"
-      onClick={handleClick}
+      onClick={() => {
+        setClicked(true);
+        handleClick();
+      }}
       onMouseEnter={updateHovered(true)}
       onMouseLeave={updateHovered(false)}
       style={{

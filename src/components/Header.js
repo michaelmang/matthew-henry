@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCopy } from '@fortawesome/free-solid-svg-icons';
 import { Fragment, useState } from 'react';
+import { useVibrate } from 'react-use';
 import { Pace, WindupChildren } from 'windups';
 
 import Button from './Button.js';
@@ -15,6 +16,8 @@ export default function Header({ author, bookImage, children, image, loading }) 
     await navigator.clipboard.writeText(window.location.href);
     setHasCopied(!hasCopied);
   };
+
+  useVibrate(hasCopied, [300], false);
 
   return (
     <div

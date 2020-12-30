@@ -9,6 +9,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import * as timeago from 'timeago.js';
+import { useVibrate } from 'react-use';
 import { useDebounce } from 'use-debounce';
 import { v4 as uuidv4 } from 'uuid';
 import { WindupChildren } from 'windups';
@@ -125,6 +126,8 @@ export default function Reader({ content, loading, match, refetch, reviews }) {
       return;
     }
   }, [isAddingReview, data?.insert_reviews_one?.id, refetch, reviews, username]);
+
+  useVibrate(rating, [300], false);
 
   if (loading) {
     return 'Loading...';
