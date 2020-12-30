@@ -16,7 +16,7 @@ export default function Select({ children, label, onChange, options }) {
 
   return (
     <animated.div
-      className="w-full md:w-64 flex flex-col px-4 md:px-12 mt-4"
+      className="w-full md:w-64 flex flex-col px-4 md:pl-12 pr-0 mt-4"
       style={fadeInSpring}
     >
       <label className="text-sm text-white">{label}</label>
