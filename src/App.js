@@ -1,7 +1,8 @@
 import { useLazyQuery, useQuery } from "@apollo/client";
-import { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useBottomScrollListener } from 'react-bottom-scroll-listener';
+import kebabcase from 'lodash.kebabcase';
+import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { useBottomScrollListener } from "react-bottom-scroll-listener";
 
 import "./tailwind.dist.css";
 import "./App.css";
@@ -13,6 +14,7 @@ import Hero from "./components/Hero.js";
 import Layout from "./components/Layout.js";
 import ScrollToTop from "./components/ScrollToTop.js";
 import Select from "./components/Select.js";
+import bible from "./data/bible.json";
 
 const defaultLimit = 4;
 let offset = 0;
@@ -32,29 +34,29 @@ const filters = {
   },
 };
 const sorts = {
-  "Canonical": {
+  Canonical: {
     order_by: {
-      index: 'asc',
+      index: "asc",
     },
   },
   "Alphabetical (A-Z)": {
     order_by: {
-      name: 'asc',
+      name: "asc",
     },
   },
   "Alphabetical (Z-A)": {
     order_by: {
-      name: 'desc',
+      name: "desc",
     },
   },
-  "Shortest": {
+  Shortest: {
     order_by: {
-      count: 'asc',
+      count: "asc",
     },
   },
-  "Longest": {
+  Longest: {
     order_by: {
-      count: 'desc',
+      count: "desc",
     },
   },
 };
@@ -62,7 +64,9 @@ const sorts = {
 function App() {
   const [filter, setFilter] = useState("Show All");
   const [sort, setSort] = useState("Canonical");
-  
+  const [book, setBook] = useState("--");
+  const [chapter, setChapter] = useState("--");
+
   const { loading, data, error, fetchMore } = useQuery(BOOKS, {
     variables: {
       ...filters[filter],
@@ -85,20 +89,59 @@ function App() {
     });
   });
 
+  useEffect(() => {
+    if (chapter !== "--") {
+      setBook("--");
+      setChapter("--");
+    }
+  }, [chapter]);
+  
   return (
     <Router>
       <div>
         <ScrollToTop />
         <Switch>
           <Route exact path="/">
-            <Layout
-              error={error || commentaries.error}
-              loading={loading}
-            >
+            {book !== "--" && chapter !== "--" && (
+              <Redirect to={`/commentaries/${kebabcase(book)}/${chapter}`} />
+            )}
+            <Layout error={error || commentaries.error} loading={loading}>
               <Hero loading={loading} />
               <div className="flex">
-                <Select label="Sort" onChange={setSort} options={Object.keys(sorts)}>{sort}</Select>
-                <Select label="Filter" onChange={setFilter} options={Object.keys(filters)}>{filter}</Select>
+                <Select
+                  label="Book"
+                  onChange={setBook}
+                  options={bible.map((x) => x.book)}
+                >
+                  {book}
+                </Select>
+                {book !== "--" && (
+                  <Select
+                    label="Chapter"
+                    onChange={setChapter}
+                    options={bible
+                      .find((x) => x.book === book)
+                      .chapters.map((c) => c.chapter)}
+                  >
+                    {chapter}
+                  </Select>
+                )}
+              </div>
+              <div className="flex mt-4">
+                <Select
+                  label="Sort"
+                  onChange={setSort}
+                  options={Object.keys(sorts)}
+                >
+                  {sort}
+                </Select>
+                <Select
+                  label="Filter"
+                  onChange={setFilter}
+                  options={Object.keys(filters)}
+                >
+                  {filter}
+                </Select>
               </div>
               {!loading && (
                 <Feed
@@ -114,9 +157,7 @@ function App() {
             exact
             path="/commentaries/:book/:chapter"
             render={(routerProps) => {
-              return (
-                <Commentary {...routerProps} />
-              );
+              return <Commentary {...routerProps} />;
             }}
           />
         </Switch>

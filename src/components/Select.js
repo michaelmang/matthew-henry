@@ -2,7 +2,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { animated, useSpring } from "react-spring";
-import { useVibrate } from 'react-use';
+import { useVibrate } from "react-use";
 
 import { fadeIn } from "../animations.js";
 
@@ -44,21 +44,21 @@ export default function Select({ children, label, onChange, options }) {
             </svg>
           </span>
         </button>
-        {isSelecting &&
-          options.map((option) => (
-            <div
-              key={option}
-              className="mt-1 w-full rounded-md bg-white shadow-lg"
-              onClick={() => {
-                onChange(option);
-                setSelected(true);
-                setSelecting(false);
-              }}
-              onBlur={() => {
-                setSelected(false);
-              }}
-            >
-              <ul className="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+        {isSelecting && (
+          <div className="mt-1 w-full rounded-md bg-white shadow-lg max-h-36 overflow-y-scroll">
+            {options.map((option) => (
+              <ul
+                key={option}
+                className="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                onClick={() => {
+                  onChange(option);
+                  setSelected(true);
+                  setSelecting(false);
+                }}
+                onBlur={() => {
+                  setSelected(false);
+                }}
+              >
                 <li className="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9">
                   <div className="flex items-center">
                     <span className="ml-3 block font-normal truncate">
@@ -72,8 +72,9 @@ export default function Select({ children, label, onChange, options }) {
                   )}
                 </li>
               </ul>
-            </div>
-          ))}
+            ))}
+          </div>
+        )}
       </div>
     </animated.div>
   );

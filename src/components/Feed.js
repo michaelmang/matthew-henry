@@ -40,7 +40,7 @@ export default function Feed({ commentaries: currentCommentaries, data, getComme
     ? [offset]
     : [defaultOffset];
 
-  return data.books.map(({ count, id, image, commentaries, name }) => {
+  return data.books.map(({ count, id, image, commentaries, name }, idx) => {
     const [currentOffset] = getLimitRange(id);
 
     let presentation;
@@ -52,7 +52,7 @@ export default function Feed({ commentaries: currentCommentaries, data, getComme
     }
 
     return (
-      <Section key={id} title={name}>
+      <Section key={`${id}_${idx}`} title={name}>
         {size.width >= md && currentOffset > defaultOffset && (
           <FontAwesomeIcon
             className={`self-center mr-8 ${loading ? 'pointer-events-none' : 'pointer-events-auto'}`}
