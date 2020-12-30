@@ -7,7 +7,7 @@ import { Pace, WindupChildren } from 'windups';
 import Button from './Button.js';
 import Navbar from './Navbar.js';
 
-const defaultImage = "http://digitalpuritan.net/wp-content/uploads/2014/06/Matthew-Henry-745x1024.jpg";
+const defaultImage = "https://images.unsplash.com/photo-1505072276982-d6c55de5d5d8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80";
 
 export default function Header({ author, bookImage, children, image, loading }) {
   const [hasCopied, setHasCopied] = useState(false);
