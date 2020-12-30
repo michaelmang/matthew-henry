@@ -24,7 +24,7 @@ export default function Commentary({ match }) {
       loading={loading}
     >
       <Header
-        {...data}
+        {...commentary}
         loading={loading}
       >
         {parsedBook} {chapter}
