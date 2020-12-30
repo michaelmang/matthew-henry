@@ -1,38 +1,49 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
-import { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { Fragment } from "react";
 
-import Button from './Button.js';
-import Navbar from './Navbar.js';
+import Navbar from "./Navbar.js";
 
-const defaultImage = "https://images.unsplash.com/photo-1453791052107-5c843da62d97?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1650&q=80";
+const defaultImage =
+  "http://digitalpuritan.net/wp-content/uploads/2014/06/Matthew-Henry-745x1024.jpg";
 
-export default function Hero({ author, book, book_chapter, bookImage, children, description, image, loading, tag }) {
+export default function Hero({ loading }) {
   return (
-    <div className="w-full hero p-4 md:p-10 md:pl-12 pt-4" style={{ "--hero-background": `url('${bookImage || image || defaultImage}')`}}>
+    <div
+      className="w-full hero p-4 md:p-10 md:pl-12 pt-4"
+      style={{ "--hero-background": `url('${defaultImage}')` }}
+    >
       <div className="h-full w-full flex flex-col justify-between">
         <Navbar />
         <div className="flex flex-col items-start justify-end pt-6">
           {!loading && (
             <Fragment>
-              {tag && (
-                <div className="flex text-white">
-                  <div key={tag.id} className="uppercase text-xs md:text-xs bg-red-700 p-1 md:p-2 rounded-sm mb-4 mr-1">{tag.type}</div>
+              <div className="text-white text-md md:text-4xl mb-2">
+                Matthew Henry's Bible Commentary
+              </div>
+              <div className="text-sm md:text-lg mb-4 font-bold text-gray-400">
+                1706 - 1714
+              </div>
+              <div className="flex flex-col border-white border-l-2 border-solid pr-8 text-white text-xs md:text-base w-3/4 md:w-5/12">
+                <div className="ml-4 text-left">
+                  It is an excellency, in this commentary, that the truths of
+                  Scripture are adapted, with great spiritual skill, to the
+                  various afflictions, conflicts, and temptations which are
+                  incident to the Christian life. The erring will here find
+                  reproof and direction, the sluggish excitement, the timid
+                  encouragement, the mourner comfort, and the growing Christian,
+                  confirmation, and increase of knowledge and assurance.
+
                 </div>
-              )}
-              <div className="text-white text-md md:text-3xl mb-2">{children}</div>
-              <div className="text-white text-xs md:text-sm mb-4"><span className="font-bold text-gray-400">Written By:</span> {author}</div>
-              <div className="text-white text-xs md:text-sm w-3/4 md:w-1/2 ">
-                {description}
+                <div className="ml-4 mt-4">
+                  - Archibald Alexander (1828)
+                </div>
               </div>
               <div className="flex my-5">
-                <Link to={`/commentaries/${book}/${book_chapter}`}>
-                  <Button>
-                    <FontAwesomeIcon className="mr-2" icon={faBookOpen} />
-                    Read
-                  </Button>
-                </Link>
+                <FontAwesomeIcon
+                  className="text-white animate-bounce"
+                  icon={faArrowDown}
+                />
               </div>
             </Fragment>
           )}

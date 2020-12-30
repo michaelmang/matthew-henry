@@ -52,7 +52,7 @@ p.read-this-passage {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  height: 60vh;
+  height: 100vh;
   animation: fade-in 0.5s ease-out;
 }
 

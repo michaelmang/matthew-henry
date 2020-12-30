@@ -23,11 +23,6 @@ function App() {
     },
   });
 
-  const featuredBook = data?.books?.find(
-    (book) => book?.tag?.type === "featured"
-  );
-  const hero = featuredBook?.commentaries[0];
-
   useBottomScrollListener(() => {
     offset = offset + defaultLimit;
 
@@ -48,14 +43,7 @@ function App() {
               error={error || commentaries.error}
               loading={loading}
             >
-              <Hero
-                {...hero}
-                loading={loading}
-                book={featuredBook?.name}
-                bookImage={featuredBook?.image}
-              >
-                {featuredBook?.name} {hero?.book_chapter}
-              </Hero>
+              <Hero loading={loading} />
               {!loading && (
                 <Feed
                   commentaries={commentaries.data?.commentaries}
