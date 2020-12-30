@@ -4,15 +4,20 @@ import { Fragment } from "react";
 import { Pace, WindupChildren } from 'windups';
 
 import Navbar from "./Navbar.js";
+import { useWindowSize } from '../hooks.js';
 
 const defaultImage =
   "https://res.cloudinary.com/dpzpn0xkz/image/upload/w_1000,ar_16:9,c_fill,g_auto,e_sharpen/v1609360871/matthew_henry/ovokwmsfplzo5zrmcmfz.jpg";
+const defaultMobileImage = "https://images.unsplash.com/photo-1481142889578-dda440dacfe1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80";
+const md = 768; // size of medium breakpoint according to tailwindcss: https://tailwindcss.com/docs/responsive-design
 
 export default function Hero({ loading }) {
+  const { width: size } = useWindowSize();
+  
   return (
     <div
       className="w-full hero p-6 md:p-10 md:pl-12 pt-4"
-      style={{ "--hero-background": `url('${defaultImage}')` }}
+      style={{ "--hero-background": `url('${size >= md ? defaultImage : defaultMobileImage}')` }}
     >
       <div className="h-full w-full flex flex-col justify-between">
         <Navbar />
