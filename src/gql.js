@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const BOOKS = gql`
-  query ($limit: Int = 4, $offset: Int = 0) {
-    books(order_by: {index: asc}, limit: $limit, offset: $offset) {
+  query ($order_by: [books_order_by!], $limit: Int = 4, $offset: Int = 0, $index_lte: Int = 66, $index_gt: Int = 0) {
+    books(order_by: $order_by, limit: $limit, offset: $offset, where: {index: {_lte: $index_lte, _gt: $index_gt}}) {
       tag {
         id
         type
