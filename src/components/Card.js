@@ -7,7 +7,7 @@ import { useVibrate } from 'react-use';
 import RatingStars from './RatingStars.js';
 import { fadeIn } from '../animations.js';
 
-const defaultImage = "https://images.unsplash.com/photo-1481142889578-dda440dacfe1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80";
+const defaultImage = "http://digitalpuritan.net/wp-content/uploads/2014/06/Matthew-Henry-745x1024.jpg";
 
 export default function Card({ author, book, book_chapter, bookImage, children, description, image, loading, tag, reviews }) {
   const [isHovered, setIsHovered] = useState(false);
