@@ -11,15 +11,15 @@ const defaultImage =
 export default function Hero({ loading }) {
   return (
     <div
-      className="w-full hero p-4 md:p-10 md:pl-12 pt-4"
+      className="w-full hero p-6 md:p-10 md:pl-12 pt-4"
       style={{ "--hero-background": `url('${defaultImage}')` }}
     >
       <div className="h-full w-full flex flex-col justify-between">
         <Navbar />
-        <div className="flex flex-col items-start justify-end pt-6">
+        <div className="flex flex-col items-start justify-end mb-8 md:mb-0">
           {!loading && (
             <Fragment>
-              <div className="text-white text-md md:text-4xl mb-2">
+              <div className="text-white text-2xl md:text-4xl mb-2">
                 Matthew Henry's Bible Commentary
               </div>
               <div className="text-sm md:text-lg mb-4 font-bold text-gray-400">

@@ -107,7 +107,7 @@ function App() {
             )}
             <Layout error={error || commentaries.error} loading={loading}>
               <Hero loading={loading} />
-              <div className="flex">
+              <div className="flex flex-col md:flex-row">
                 <Select
                   label="Book"
                   onChange={setBook}
@@ -127,7 +127,7 @@ function App() {
                   </Select>
                 )}
               </div>
-              <div className="flex mt-4">
+              <div className="flex flex-col md:flex-row mt-4">
                 <Select
                   label="Sort"
                   onChange={setSort}
