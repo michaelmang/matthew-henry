@@ -67,15 +67,6 @@ export default function Feed({ commentaries: currentCommentaries, data, getComme
             {name} {book_chapter}
           </Card>
         ))}
-        {size.width < md && currentOffset > defaultOffset && (
-          <FontAwesomeIcon
-            className={`mb-4 mr-2 ${isLoading ? 'pointer-events-none' : 'pointer-events-auto'}`}
-            color="white"
-            icon={faChevronCircleLeft}
-            onClick={() => expandSection(id, count)({ isReversing: true })}
-            size="3x"
-          />
-        )}
         {count > defaultLimit && (
           <FontAwesomeIcon
             className={`${size.width < md ? 'ml-2 mb-4' : 'ml-8'} self-center cursor-pointer ${loading ? 'pointer-events-none' : 'pointer-events-auto'}`}
