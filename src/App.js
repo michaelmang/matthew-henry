@@ -105,7 +105,7 @@ function App() {
                   commentaries={commentaries.data?.commentaries}
                   data={data}
                   getCommentaries={getCommentaries}
-                  isLoading={commentaries.loading}
+                  loading={commentaries.loading}
                 />
               )}
             </Layout>

@@ -8,7 +8,7 @@ import { WindupChildren } from 'windups';
 import LoginButton from './LoginButton.js';
 
 export default function Navbar() {
-  const { isAuthenticated, isLoading, logout, user } = useAuth0();
+  const { isAuthenticated, loading, logout, user } = useAuth0();
   const [isExpanded, setExpanded] = useState(false);
 
   const updateExpanded = () => {
@@ -29,8 +29,8 @@ export default function Navbar() {
           Matthew Henry
         </Link>
         <div className="flex items-center" onClick={updateExpanded}>
-          {!isLoading && !isAuthenticated && <LoginButton />}
-          {!isLoading && isAuthenticated && (
+          {!loading && !isAuthenticated && <LoginButton />}
+          {!loading && isAuthenticated && (
             <div className="flex flex-col text-white items-end">
               <div className="flex items-center cursor-pointer">
                 <WindupChildren>

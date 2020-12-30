@@ -9,7 +9,7 @@ import { fadeIn } from '../animations.js';
 
 const defaultImage = "https://images.unsplash.com/photo-1481142889578-dda440dacfe1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80";
 
-export default function Card({ author, book, book_chapter, bookImage, children, description, image, tag, reviews }) {
+export default function Card({ author, book, book_chapter, bookImage, children, description, image, loading, tag, reviews }) {
   const [isHovered, setIsHovered] = useState(false);
   const [hasClicked, setClicked] = useState(false);
 
@@ -40,12 +40,12 @@ export default function Card({ author, book, book_chapter, bookImage, children, 
       onMouseEnter={updateHovered(true)}
       onMouseLeave={updateHovered(false)}
       style={{
-        '--card-background': `url('${image || bookImage || defaultImage}')`,
+        '--card-background': `url('${loading ? '' : image || bookImage || defaultImage}')`,
         height: 450,
         ...step1,
       }}
     >
-      <div className="flex flex-col">
+      {!loading && <div className="flex flex-col">
         {tag && !isHovered && (
           <div className="flex">
             <div
@@ -69,7 +69,7 @@ export default function Card({ author, book, book_chapter, bookImage, children, 
         {isHovered && (
           <div className="card_description text-xs nmd:text-sm my-6">{description}</div>
         )}
-      </div>
+      </div>}
     </animated.div>
   );
 }
